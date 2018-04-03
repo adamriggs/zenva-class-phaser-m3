@@ -54,14 +54,57 @@ export default class extends Phaser.State {
 
     //nothing is selected
     this.selectedItem = null
+    this.uiBlocked = false
   }
 
   pickItem(sprite, event) {
-    console.log('pick item')
+
+    if(!this.uiBlocked) {
+      console.log('pick item')
+
+      this.clearSelection()
+
+      sprite.alpha = 0.4
+
+      this.selectedItem = sprite
+
+
+    }
   }
 
   rotatePet(sprite, event) {
-    console.log('rotating...')
+    if(!this.uiBlocked) {
+      console.log('rotating...')
+
+      this.uiBlocked = true
+
+      this.clearSelection()
+
+      sprite.alpha = 0.4
+
+      var petRotation = this.game.add.tween(this.pet)
+
+      petRotation.to({angle: '+720'}, 1000)
+
+      petRotation.onComplete.add(function() {
+        this.uiBlocked = false
+        sprite.alpha = 1
+
+        this.pet.customParams.fun += 10
+        console.log(this.pet.customParams.fun)
+      }, this)
+
+      petRotation.start()
+
+    }
+  }
+
+  clearSelection() {
+    this.buttons.forEach(function(element, index) {
+      element.alpha = 1
+    })
+
+    this.selectedItem = null
   }
 
   render() {
