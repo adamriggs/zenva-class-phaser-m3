@@ -116,6 +116,16 @@ export default class extends Phaser.State {
       var newItem = this.game.add.sprite(x, y, this.selectedItem.key)
       centerGameObjects([newItem])
       newItem.customParams = this.selectedItem.customParams
+
+      this.uiBlocked = true
+      this.petMovement = this.game.add.tween(this.pet)
+      this.petMovement.to({ x: x, y: y}, 700)
+      this.petMovement.onComplete.add(function() {
+        newItem.destroy()
+        this.uiBlocked = false
+      }, this)
+
+      this.petMovement.start()
     }
 
   }
