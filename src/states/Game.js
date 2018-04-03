@@ -16,6 +16,8 @@ export default class extends Phaser.State {
 
 
     this.background = this.game.add.sprite(0, 0, 'backyard')
+    this.background.inputEnabled = true
+    this.background.events.onInputDown.add(this.placeItem, this)
 
     this.pet = this.game.add.sprite(100, 400, 'pet')
     this.pet.anchor.setTo(0.5);
@@ -67,8 +69,6 @@ export default class extends Phaser.State {
       sprite.alpha = 0.4
 
       this.selectedItem = sprite
-
-
     }
   }
 
@@ -105,6 +105,19 @@ export default class extends Phaser.State {
     })
 
     this.selectedItem = null
+  }
+
+  placeItem(sprite, event) {
+
+    if(this.selectedItem && !this.uiBlocked) {
+      var x = event.position.x
+      var y = event.position.y
+
+      var newItem = this.game.add.sprite(x, y, this.selectedItem.key)
+      centerGameObjects([newItem])
+      newItem.customParams = this.selectedItem.customParams
+    }
+
   }
 
   render() {
