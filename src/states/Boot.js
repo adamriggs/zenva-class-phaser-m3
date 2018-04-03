@@ -4,9 +4,8 @@ import config from '../config'
 
 export default class extends Phaser.State {
   init() {
+    console.log('Boot.init()')
     this.stage.backgroundColor = '#000'
-    this.fontsReady = false
-    this.fontsLoaded = this.fontsLoaded.bind(this)
 
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
     this.scale.pageAlignHorizontally = true
@@ -19,29 +18,13 @@ export default class extends Phaser.State {
   }
 
   preload() {
-    // if (config.webfonts.length) {
-    //   WebFont.load({
-    //     google: {
-    //       families: config.webfonts
-    //     },
-    //     active: this.fontsLoaded
-    //   })
-    // }
+    console.log('Boot.preload()')
 
-    // let text = this.add.text(this.world.centerX, this.world.centerY, 'loading fonts', { font: '16px Arial', fill: '#dddddd', align: 'center' })
-    // text.anchor.setTo(0.5, 0.5)
-
-    // this.load.image('loaderBg', './assets/images/loader-bg.png')
-    // this.load.image('loaderBar', './assets/images/loader-bar.png')
   }
 
   render() {
-    // if (config.webfonts.length && this.fontsReady) {
-    //   this.state.start('Splash')
-    // }
-    // if (!config.webfonts.length) {
-    //   this.state.start('Splash')
-    // }
+    console.log('Boot.render()')
+
   }
 
   fontsLoaded() {
@@ -49,7 +32,7 @@ export default class extends Phaser.State {
   }
 
   create () {
-    
-    this.state.start('Preload')
+    console.log('Boot.create()')
+    this.state.start('Splash')
   }
 }
