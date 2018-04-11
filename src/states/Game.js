@@ -120,9 +120,19 @@ export default class extends Phaser.State {
       this.uiBlocked = true
       this.petMovement = this.game.add.tween(this.pet)
       this.petMovement.to({ x: x, y: y}, 700)
+
       this.petMovement.onComplete.add(function() {
+
         newItem.destroy()
         this.uiBlocked = false
+
+        var stat
+        for(stat in newItem.customParams) {
+          if(newItem.customParams.hasOwnProperty(stat)) {
+            console.log(stat)
+            this.pet.customParams[stat] += newItem.customParams[stat]
+          }
+        }
       }, this)
 
       this.petMovement.start()
