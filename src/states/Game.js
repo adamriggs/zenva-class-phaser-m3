@@ -19,8 +19,11 @@ export default class extends Phaser.State {
     this.background.inputEnabled = true
     this.background.events.onInputDown.add(this.placeItem, this)
 
-    this.pet = this.game.add.sprite(100, 400, 'pet')
+    this.pet = this.game.add.sprite(100, 400, 'pet', 3)
     this.pet.anchor.setTo(0.5);
+
+    //spritesheet animations
+    this.pet.animations.add('funnyfaces', [1, 2, 3, 2, 1], 7, false)
 
     //custom properties
     this.pet.customParams = {health: 100, fun: 100}
@@ -124,6 +127,9 @@ export default class extends Phaser.State {
       this.petMovement.onComplete.add(function() {
 
         newItem.destroy()
+
+        this.pet.animations.play('funnyfaces')
+
         this.uiBlocked = false
 
         var stat
