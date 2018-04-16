@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { centerGameObjects } from '../utils'
+// import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
   init () {
@@ -9,7 +9,7 @@ export default class extends Phaser.State {
   preload () {
     console.log('Preload.preload()')
 
-    this.load.image('backyard', 'assets/images/backyard.png') 
+    this.load.image('backyard', 'assets/images/backyard.png')
     this.load.image('apple', 'assets/images/apple.png')
     this.load.image('candy', 'assets/images/candy.png')
     this.load.image('rotate', 'assets/images/rotate.png')
@@ -20,7 +20,7 @@ export default class extends Phaser.State {
 
   create () {
     console.log('Preload.create()')
-    this.background = this.game.add.sprite(0, 0, 'backyard');
+    this.background = this.game.add.sprite(0, 0, 'backyard')
 
     this.state.start('Game')
   }

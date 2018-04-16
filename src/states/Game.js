@@ -4,32 +4,31 @@ import Phaser from 'phaser'
 import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
-  init() { 
+  init () {
     console.log('Game.init()')
   }
-  preload() {
+  preload () {
     console.log('Game.preload()')
   }
 
-  create() {
+  create () {
     console.log('Game.create()')
-
 
     this.background = this.game.add.sprite(0, 0, 'backyard')
     this.background.inputEnabled = true
     this.background.events.onInputDown.add(this.placeItem, this)
 
     this.pet = this.game.add.sprite(100, 400, 'pet', 3)
-    this.pet.anchor.setTo(0.5);
+    this.pet.anchor.setTo(0.5)
 
-    //spritesheet animations
+    // spritesheet animations
     this.pet.animations.add('funnyfaces', [1, 2, 3, 2, 1], 7, false)
 
-    //custom properties
+    // custom properties
     this.pet.customParams = {health: 100, fun: 100}
 
-    //draggable pet
-    this.pet.inputEnabled = true;
+    // draggable pet
+    this.pet.inputEnabled = true
     this.pet.input.enableDrag()
 
     this.apple = this.game.add.sprite(72, 570, 'apple')
@@ -57,14 +56,13 @@ export default class extends Phaser.State {
 
     this.buttons = [this.apple, this.candy, this.toy, this.rotate]
 
-    //nothing is selected
+    // nothing is selected
     this.selectedItem = null
     this.uiBlocked = false
   }
 
-  pickItem(sprite, event) {
-
-    if(!this.uiBlocked) {
+  pickItem (sprite, event) {
+    if (!this.uiBlocked) {
       console.log('pick item')
 
       this.clearSelection()
@@ -75,8 +73,8 @@ export default class extends Phaser.State {
     }
   }
 
-  rotatePet(sprite, event) {
-    if(!this.uiBlocked) {
+  rotatePet (sprite, event) {
+    if (!this.uiBlocked) {
       console.log('rotating...')
 
       this.uiBlocked = true
@@ -89,7 +87,7 @@ export default class extends Phaser.State {
 
       petRotation.to({angle: '+720'}, 1000)
 
-      petRotation.onComplete.add(function() {
+      petRotation.onComplete.add(function () {
         this.uiBlocked = false
         sprite.alpha = 1
 
@@ -98,21 +96,19 @@ export default class extends Phaser.State {
       }, this)
 
       petRotation.start()
-
     }
   }
 
-  clearSelection() {
-    this.buttons.forEach(function(element, index) {
+  clearSelection () {
+    this.buttons.forEach(function (element, index) {
       element.alpha = 1
     })
 
     this.selectedItem = null
   }
 
-  placeItem(sprite, event) {
-
-    if(this.selectedItem && !this.uiBlocked) {
+  placeItem (sprite, event) {
+    if (this.selectedItem && !this.uiBlocked) {
       var x = event.position.x
       var y = event.position.y
 
@@ -122,10 +118,9 @@ export default class extends Phaser.State {
 
       this.uiBlocked = true
       this.petMovement = this.game.add.tween(this.pet)
-      this.petMovement.to({ x: x, y: y}, 700)
+      this.petMovement.to({x: x, y: y}, 700)
 
-      this.petMovement.onComplete.add(function() {
-
+      this.petMovement.onComplete.add(function () {
         newItem.destroy()
 
         this.pet.animations.play('funnyfaces')
@@ -133,8 +128,8 @@ export default class extends Phaser.State {
         this.uiBlocked = false
 
         var stat
-        for(stat in newItem.customParams) {
-          if(newItem.customParams.hasOwnProperty(stat)) {
+        for (stat in newItem.customParams) {
+          if (newItem.customParams.hasOwnProperty(stat)) {
             console.log(stat)
             this.pet.customParams[stat] += newItem.customParams[stat]
           }
@@ -143,13 +138,12 @@ export default class extends Phaser.State {
 
       this.petMovement.start()
     }
-
   }
 
-  render() {
-    //console.log('Game.render()')
+  render () {
+    // console.log('Game.render()')
     if (__DEV__) {
-      //this.game.debug.spriteInfo(this.mushroom, 32, 32)
+      // this.game.debug.spriteInfo(this.mushroom, 32, 32)
     }
   }
 }

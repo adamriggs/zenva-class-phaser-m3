@@ -7,16 +7,16 @@ import SplashState from './states/Splash'
 import PreloadState from './states/Preload'
 import GameState from './states/Game'
 
-import config from './config'
+// import config from './config'
 
 class Game extends Phaser.Game {
   constructor () {
     console.log('Main.constructor()')
-    const docElement = document.documentElement
-    const width = docElement.clientWidth > config.gameWidth ? config.gameWidth : docElement.clientWidth
-    const height = docElement.clientHeight > config.gameHeight ? config.gameHeight : docElement.clientHeight
+    // const docElement = document.documentElement
+    // const width = docElement.clientWidth > config.gameWidth ? config.gameWidth : docElement.clientWidth
+    // const height = docElement.clientHeight > config.gameHeight ? config.gameHeight : docElement.clientHeight
 
-    //super(width, height, Phaser.CANVAS, 'content', null)
+    // super(width, height, Phaser.CANVAS, 'content', null)
     super(360, 640, Phaser.AUTO)
 
     this.state.add('Boot', BootState, false)
@@ -25,7 +25,6 @@ class Game extends Phaser.Game {
     this.state.add('Game', GameState, false)
 
     this.state.start('Boot')
-    
   }
 }
 

@@ -1,9 +1,9 @@
 import Phaser from 'phaser'
-import WebFont from 'webfontloader'
-import config from '../config'
+// import WebFont from 'webfontloader'
+// import config from '../config'
 
 export default class extends Phaser.State {
-  init() {
+  init () {
     console.log('Boot.init()')
     this.stage.backgroundColor = '#000'
 
@@ -17,17 +17,15 @@ export default class extends Phaser.State {
     }
   }
 
-  preload() {
+  preload () {
     console.log('Boot.preload()')
-
   }
 
-  render() {
+  render () {
     console.log('Boot.render()')
-
   }
 
-  fontsLoaded() {
+  fontsLoaded () {
     this.fontsReady = true
   }
 
