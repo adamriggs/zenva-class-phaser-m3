@@ -19,18 +19,17 @@ export default class extends Phaser.State {
 
   preload () {
     console.log('Boot.preload()')
+    this.load.image('preloadBar', 'assets/images/bar.png')
+    this.load.image('logo', 'assets/images/logo.png')
   }
 
   render () {
     console.log('Boot.render()')
   }
 
-  fontsLoaded () {
-    this.fontsReady = true
-  }
-
   create () {
     console.log('Boot.create()')
-    this.state.start('Splash')
+    this.game.stage.backgroundColor = '#fff'
+    this.state.start('Preload')
   }
 }

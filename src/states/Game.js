@@ -43,11 +43,11 @@ export default class extends Phaser.State {
     this.apple.events.onInputDown.add(this.pickItem, this)
 
     this.candy.inputEnabled = true
-    this.apple.customParams = {health: -10, fun: 10}
+    this.candy.customParams = {health: -10, fun: 10}
     this.candy.events.onInputDown.add(this.pickItem, this)
 
     this.toy.inputEnabled = true
-    this.apple.customParams = {fun: 10}
+    this.toy.customParams = {fun: 10}
     this.toy.events.onInputDown.add(this.pickItem, this)
 
     this.rotate.inputEnabled = true
@@ -58,7 +58,21 @@ export default class extends Phaser.State {
 
     // nothing is selected
     this.selectedItem = null
+
+    // UI is not blocked at the start
     this.uiBlocked = false
+
+    var style = {font: '20px Arial', fill: '#fff'}
+    this.game.add.text(10, 20, 'Health:', style)
+    this.game.add.text(140, 20, 'Fun:', style)
+
+    this.healthText = this.game.add.text(80, 20, '', style)
+    this.funText = this.game.add.text(185, 20, '', style)
+
+    this.refreshStats()
+
+    // decreast the health every 5 seconds
+    this.statsDecreaser = this.game.time.events.loop(Phaser.Timer.SECOND * 5, this.reduceProperties, this)
   }
 
   pickItem (sprite, event) {
@@ -92,7 +106,8 @@ export default class extends Phaser.State {
         sprite.alpha = 1
 
         this.pet.customParams.fun += 10
-        console.log(this.pet.customParams.fun)
+        // console.log(this.pet.customParams)
+        this.refreshStats()
       }, this)
 
       petRotation.start()
@@ -130,14 +145,41 @@ export default class extends Phaser.State {
         var stat
         for (stat in newItem.customParams) {
           if (newItem.customParams.hasOwnProperty(stat)) {
-            console.log(stat)
+            // console.log(stat)
             this.pet.customParams[stat] += newItem.customParams[stat]
           }
         }
+
+        this.refreshStats()
       }, this)
 
       this.petMovement.start()
     }
+  }
+
+  refreshStats () {
+    this.healthText.text = this.pet.customParams.health
+    this.funText.text = this.pet.customParams.fun
+  }
+
+  reduceProperties () {
+    this.pet.customParams.health -= 10
+    this.pet.customParams.fun -= 15
+    this.refreshStats()
+  }
+
+  update () {
+    if (this.pet.customParams.health <= 0 || this.pet.customParams.fun <= 0) {
+      this.pet.frame = 4
+      this.uiBlocked = true
+
+      this.game.time.events.add(2000, this.gameOver, this)
+    }
+  }
+
+  gameOver () {
+    // this.game.state.restart()
+    this.state.start('Splash', true, false, 'GAME OVER!')
   }
 
   render () {
